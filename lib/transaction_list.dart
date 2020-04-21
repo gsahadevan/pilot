@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pilot/ComposeButton.dart';
-import 'package:pilot/Transaction.dart';
-import 'package:pilot/TransactionDetail.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pilot/app_drawer.dart';
+import 'package:pilot/compose_button.dart';
+import 'package:pilot/models/transaction.dart';
+import 'package:pilot/transaction_detail.dart';
 
 class TransactionList extends StatefulWidget {
   final String title;
@@ -34,6 +36,50 @@ class _TransactionListState extends State<TransactionList> {
               })
         ],
       ),
+      drawer: Drawer(
+          child: Column(
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountEmail: Text("gsahadevan@outlook.com"),
+            accountName: Text("Gauthaman Sahadevan"),
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://avatars1.githubusercontent.com/u/37937909?s=460&u=f77fd1af1722ae112efe655cc093ac7d4599bbfb&v=4"),
+            ),
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.inbox),
+            title: Text("Summary"),
+          ),
+          ListTile(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                        title: Text("Add a new account / card information"));
+                  });
+            },
+            leading: Icon(FontAwesomeIcons.inbox),
+            title: Text("Add Card / Account Information"),
+            trailing: Chip(
+              label: Text("3"),
+              labelStyle: TextStyle(color: Color(0xffffffff)),
+              backgroundColor: Color(0xff003366),
+            ),
+          ),
+          Divider(),
+          Expanded(
+            child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: ListTile(
+                leading: Icon(FontAwesomeIcons.cog),
+                title: Text("Settings"),
+              ),
+            ),
+          )
+        ],
+      )),
       body: FutureBuilder(
         future: transactions,
         builder: (BuildContext context, AsyncSnapshot snapshot) {

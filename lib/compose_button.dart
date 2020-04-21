@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pilot/Transaction.dart';
-import 'package:pilot/TransactionNew.dart';
+import 'package:pilot/models/transaction.dart';
+import 'package:pilot/transaction_new.dart';
 
 class ComposeButton extends StatelessWidget {
   @override
@@ -14,8 +14,11 @@ class ComposeButton extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => TransactionNew()));
+        var text = transaction != null && transaction.title != null
+            ? transaction.title
+            : "Nothing?";
         Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text(transaction.title),
+          content: Text(text),
         ));
       },
     );

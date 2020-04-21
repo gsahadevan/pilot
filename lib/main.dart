@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pilot/TransactionList.dart';
+import 'package:pilot/transaction_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white, primaryColor: Colors.white),
+          scaffoldBackgroundColor: Colors.white, primaryColor: Color(0xff336699)),
       home: TransactionList(title: 'Expense Tracker'),
     );
   }

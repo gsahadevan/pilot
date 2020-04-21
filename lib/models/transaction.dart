@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-part 'Transaction.g.dart';
+part 'transaction.g.dart';
 
 @JsonSerializable()
 class Transaction {
@@ -14,10 +14,14 @@ class Transaction {
 
   Transaction(this.title, this.amount, this.place, this.desc);
 
-  factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
+  factory Transaction.fromJson(Map<String, dynamic> json) =>
+      _$TransactionFromJson(json);
+
+  Map<String, dynamic> toJSON() => _$TransactionToJson(this);
 
   static Future<List<Transaction>> getTransactions() async {
-    http.Response response = await http.get('http://www.mocky.io/v2/5e9f347e2d00002900cb7a78');
+    http.Response response =
+        await http.get('http://www.mocky.io/v2/5e9f347e2d00002900cb7a78');
     await Future.delayed(Duration(seconds: 2));
     List txns = json.decode(response.body);
     return txns.map((json) => Transaction.fromJson(json)).toList();
