@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pilot/Transaction.dart';
-import 'package:http/http.dart' as http;
 
 class TransactionList extends StatefulWidget  {
   final String title;
@@ -14,15 +12,14 @@ class TransactionList extends StatefulWidget  {
 
 class _TransactionListState extends State<TransactionList> {
 
-  List<Transaction> transactions = const [];
+  List<Transaction> transactions = [];
+  bool isLoading = true;
 
   Future loadTransactionList() async {
-    http.Response response = await http.get('http://www.mocky.io/v2/5e9f347e2d00002900cb7a78');
-    List txns = json.decode(response.body);
-    List<Transaction> _transactions = txns.map((json) => Transaction.fromJson(json)).toList();
-
+    List<Transaction> _transactions = await Transaction.getTransactions();
     setState(() {
       transactions = _transactions;
+      isLoading = false;
     });
   }
 
@@ -37,22 +34,24 @@ class _TransactionListState extends State<TransactionList> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView.separated(
-        itemCount: transactions.length,
-        separatorBuilder: (context, index) => Divider(),
-        itemBuilder: (BuildContext context, int index) {
-          Transaction transaction = transactions[index];
-          return ListTile(
-            title: Text(transaction.title),
-            trailing: Text(transaction.amount.toString()),
-            isThreeLine: true,
-            leading: CircleAvatar(
-              child: Text(transaction.place),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.separated(
+              itemCount: transactions.length,
+              separatorBuilder: (context, index) => Divider(),
+              itemBuilder: (BuildContext context, int index) {
+                Transaction transaction = transactions[index];
+                return ListTile(
+                  title: Text(transaction.title),
+                  trailing: Text(transaction.amount.toString()),
+                  isThreeLine: true,
+                  leading: CircleAvatar(
+                    child: Text(transaction.place),
+                  ),
+                  subtitle: Text(transaction.desc),
+                );
+              },
             ),
-            subtitle: Text(transaction.desc),
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
         // onPressed: ,
         tooltip: 'Increment',
