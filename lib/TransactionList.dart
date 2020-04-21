@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:pilot/ComposeButton.dart';
 import 'package:pilot/Transaction.dart';
+import 'package:pilot/TransactionDetail.dart';
+import 'package:pilot/TransactionNew.dart';
 
 class TransactionList extends StatefulWidget  {
   final String title;
@@ -59,16 +62,18 @@ class _TransactionListState extends State<TransactionList> {
                       child: Text(transaction.place),
                     ),
                     subtitle: Text(transaction.desc),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (BuildContext context) => TransactionDetail(transaction)));
+                    },
                   );
                 },
               );
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: ComposeButton(),
     );
   }
 }
+
