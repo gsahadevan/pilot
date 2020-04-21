@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pilot/Transaction.dart';
+import 'package:http/http.dart' as http;
 
 class TransactionList extends StatefulWidget  {
   final String title;
@@ -13,11 +14,11 @@ class TransactionList extends StatefulWidget  {
 
 class _TransactionListState extends State<TransactionList> {
 
-  var transactions = const [];
+  List<Transaction> transactions = const [];
 
   Future loadTransactionList() async {
-    String content = await rootBundle.loadString('data/transactions.json');
-    List txns = json.decode(content);
+    http.Response response = await http.get('http://www.mocky.io/v2/5e9f347e2d00002900cb7a78');
+    List txns = json.decode(response.body);
     List<Transaction> _transactions = txns.map((json) => Transaction.fromJson(json)).toList();
 
     setState(() {
