@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'Transaction.g.dart';
+
+@JsonSerializable()
 class Transaction {
 
   final String title;
@@ -7,10 +12,5 @@ class Transaction {
 
   Transaction(this.title, this.amount, this.place, this.desc);
 
-  Transaction.fromJson(Map<String, dynamic> json) :
-      title = json['title'],
-      amount = json['amount'],
-      place = json['place'],
-      desc = json['desc'];
-
+  factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
 }

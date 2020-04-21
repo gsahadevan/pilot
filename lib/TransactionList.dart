@@ -15,7 +15,7 @@ class _TransactionListState extends State<TransactionList> {
 
   var transactions = const [];
 
-  Future loadMessageList() async {
+  Future loadTransactionList() async {
     String content = await rootBundle.loadString('data/transactions.json');
     List txns = json.decode(content);
     List<Transaction> _transactions = txns.map((json) => Transaction.fromJson(json)).toList();
@@ -26,7 +26,7 @@ class _TransactionListState extends State<TransactionList> {
   }
 
   void initState() {
-    loadMessageList();
+    loadTransactionList();
     super.initState();
   }
 
