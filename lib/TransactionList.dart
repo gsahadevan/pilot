@@ -12,20 +12,11 @@ class TransactionList extends StatefulWidget  {
 
 class _TransactionListState extends State<TransactionList> {
 
-  List<Transaction> transactions = [];
-  bool isLoading = true;
-
-  Future loadTransactionList() async {
-    List<Transaction> _transactions = await Transaction.getTransactions();
-    setState(() {
-      transactions = _transactions;
-      isLoading = false;
-    });
-  }
+  Future<List<Transaction>> transactions;
 
   void initState() {
-    loadTransactionList();
     super.initState();
+    transactions = Transaction.getTransactions();
   }
 
   @override
@@ -33,27 +24,48 @@ class _TransactionListState extends State<TransactionList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.refresh), onPressed: () {
+            var _transactions = Transaction.getTransactions();
+            setState(() {
+              transactions = _transactions;
+            });
+          })
+        ],
       ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.separated(
-              itemCount: transactions.length,
-              separatorBuilder: (context, index) => Divider(),
-              itemBuilder: (BuildContext context, int index) {
-                Transaction transaction = transactions[index];
-                return ListTile(
-                  title: Text(transaction.title),
-                  trailing: Text(transaction.amount.toString()),
-                  isThreeLine: true,
-                  leading: CircleAvatar(
-                    child: Text(transaction.place),
-                  ),
-                  subtitle: Text(transaction.desc),
-                );
-              },
-            ),
+      body: FutureBuilder(
+        future: transactions,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.active:
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+            case ConnectionState.done:
+              if (snapshot.hasError) {
+                return Text("There was an error: ${snapshot.error}");
+              }
+              var transactions = snapshot.data;
+              return ListView.separated(
+                itemCount: transactions.length,
+                separatorBuilder: (context, index) => Divider(),
+                itemBuilder: (BuildContext context, int index) {
+                  Transaction transaction = transactions[index];
+                  return ListTile(
+                    title: Text(transaction.title),
+                    trailing: Text(transaction.amount.toString()),
+                    isThreeLine: true,
+                    leading: CircleAvatar(
+                      child: Text(transaction.place),
+                    ),
+                    subtitle: Text(transaction.desc),
+                  );
+                },
+              );
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
-        // onPressed: ,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
