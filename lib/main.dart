@@ -9,9 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        primaryColor: Colors.white
-      ),
+          scaffoldBackgroundColor: Colors.white, primaryColor: Colors.white),
       home: TransactionList(title: 'Expense Tracker'),
     );
   }

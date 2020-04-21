@@ -1,20 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:pilot/ComposeButton.dart';
 import 'package:pilot/Transaction.dart';
 import 'package:pilot/TransactionDetail.dart';
-import 'package:pilot/TransactionNew.dart';
 
-class TransactionList extends StatefulWidget  {
+class TransactionList extends StatefulWidget {
   final String title;
   const TransactionList({Key key, this.title}) : super(key: key);
   @override
-  State<StatefulWidget> createState()  => _TransactionListState();
+  State<StatefulWidget> createState() => _TransactionListState();
 }
 
 class _TransactionListState extends State<TransactionList> {
-
   Future<List<Transaction>> transactions;
 
   void initState() {
@@ -28,12 +24,14 @@ class _TransactionListState extends State<TransactionList> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.refresh), onPressed: () {
-            var _transactions = Transaction.getTransactions();
-            setState(() {
-              transactions = _transactions;
-            });
-          })
+          IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                var _transactions = Transaction.getTransactions();
+                setState(() {
+                  transactions = _transactions;
+                });
+              })
         ],
       ),
       body: FutureBuilder(
@@ -63,8 +61,11 @@ class _TransactionListState extends State<TransactionList> {
                     ),
                     subtitle: Text(transaction.desc),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (BuildContext context) => TransactionDetail(transaction)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  TransactionDetail(transaction)));
                     },
                   );
                 },
@@ -76,4 +77,3 @@ class _TransactionListState extends State<TransactionList> {
     );
   }
 }
-
