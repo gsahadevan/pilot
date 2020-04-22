@@ -22,7 +22,7 @@ class Transaction {
   static Future<List<Transaction>> getTransactions() async {
     http.Response response =
         await http.get('http://www.mocky.io/v2/5e9f347e2d00002900cb7a78');
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     List txns = json.decode(response.body);
     return txns.map((json) => Transaction.fromJson(json)).toList();
   }

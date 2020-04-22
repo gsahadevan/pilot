@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pilot/app_drawer.dart';
-import 'package:pilot/compose_button.dart';
+import 'package:pilot/widgets/app_drawer.dart';
+import 'package:pilot/widgets/compose_button.dart';
 import 'package:pilot/models/transaction.dart';
-import 'package:pilot/transaction_detail.dart';
+import 'package:pilot/screens/transaction_detail.dart';
 
 class TransactionList extends StatefulWidget {
   final String title;
