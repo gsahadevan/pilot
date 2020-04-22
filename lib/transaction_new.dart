@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pilot/Transaction.dart';
+import 'package:pilot/models/transaction.dart';
 
 class TransactionNew extends StatefulWidget {
   @override
